@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   const result = quoteSchema.safeParse(body);
   if (!result.success) return NextResponse.json({ error: "Demande de devis invalide." }, { status: 400 });
   try {
-    const id = saveQuote(result.data);
+    const id = await saveQuote(result.data);
     return NextResponse.json({ accepted: true, id, quote: result.data }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "La demande n'a pas pu être enregistrée." }, { status: 503 });

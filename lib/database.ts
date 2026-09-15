@@ -1,17 +1,18 @@
-import Database from "better-sqlite3";
+import initSqlJs, { type Database as SqlJsDatabase } from "sql.js";
 import fs from "node:fs";
 import path from "node:path";
 import type { QuotePayload } from "@/types/quote";
 
 const databasePath = process.env.DATABASE_PATH ?? path.join(process.cwd(), "data", "deep-digital.sqlite");
-let database: Database.Database | undefined;
+let database: SqlJsDatabase | undefined;
+let writeQueue = Promise.resolve();
 
-function getDatabase() {
+async function getDatabase() {
   if (!database) {
-    fs.mkdirSync(path.dirname(databasePath), { recursive: true });
-    database = new Database(databasePath);
-    database.pragma("journal_mode = WAL");
-    database.exec(`
+    const SQL = await initSqlJs({ locateFile: (file) => path.join(process.cwd(), "node_modules", "sql.js", "dist", file) });
+    const source = fs.existsSync(databasePath) ? fs.readFileSync(databasePath) : undefined;
+    database = new SQL.Database(source);
+    database.run(`
       CREATE TABLE IF NOT EXISTS quotes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         product TEXT NOT NULL,
@@ -26,10 +27,19 @@ function getDatabase() {
 }
 
 export function saveQuote(quote: QuotePayload) {
-  const statement = getDatabase().prepare(`
-    INSERT INTO quotes (product, color, size, technique, created_at)
-    VALUES (@product, @color, @size, @technique, @createdAt)
-  `);
-  const result = statement.run({ ...quote, createdAt: new Date().toISOString() });
-  return Number(result.lastInsertRowid);
+  const task = writeQueue.then(async () => {
+    const current = await getDatabase();
+    const statement = current.prepare(`
+      INSERT INTO quotes (product, color, size, technique, created_at)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+    statement.run([quote.product, quote.color, quote.size, quote.technique, new Date().toISOString()]);
+    statement.free();
+    const id = Number(current.exec("SELECT last_insert_rowid() AS id")[0].values[0][0]);
+    fs.mkdirSync(path.dirname(databasePath), { recursive: true });
+    fs.writeFileSync(databasePath, Buffer.from(current.export()));
+    return id;
+  });
+  writeQueue = task.then(() => undefined, () => undefined);
+  return task;
 }
