@@ -13,3 +13,9 @@ export function buildWhatsAppUrl(state: StudioState) {
 
   return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
+
+export function buildCartWhatsAppUrl(items: Array<{ state: StudioState; quantity: number }>) {
+  const lines = items.map(({ state, quantity }, index) => `${index + 1}. ${state.product.name} x${quantity} · ${state.color} · ${state.size} · ${state.technique}`);
+  const message = ["Bonjour Deep Digital, voici ma sélection à finaliser :", ...lines, "Merci de me confirmer le devis et les délais."].join("\n");
+  return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;
+}

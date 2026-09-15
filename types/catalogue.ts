@@ -9,5 +9,6 @@ export type Product = {
   technique: string;
   price: number;
   colors: string[];
-  kind: "tshirt" | "hoodie" | "tote" | "polo" | "cap" | "sweatshirt";
+  image?: string;
+  kind: "tshirt" | "hoodie" | "tote" | "polo" | "cap" | "sweatshirt" | "boxer" | "coussin" | "magazine" | "puzzle";
 };

@@ -30,6 +30,10 @@ npm run dev
 
 Ouvrir ensuite `http://localhost:3000`.
 
+## Base de donnees
+
+Les demandes envoyees a `POST /api/quote` sont enregistrees dans SQLite. Le fichier est cree automatiquement dans `data/deep-digital.sqlite` et reste ignore par Git. Pour choisir un autre emplacement, definir `DATABASE_PATH` dans l'environnement serveur.
+
 ## Arborescence
 
 ```text

@@ -20,7 +20,13 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
   }, [key]);
 
   useEffect(() => {
-    if (ready) window.localStorage.setItem(key, JSON.stringify(value));
+    if (ready) {
+      try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        // Keep the current design usable when the browser storage quota is full.
+      }
+    }
   }, [key, ready, value]);
 
   return [value, setValue, ready] as const;
