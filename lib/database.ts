@@ -1,4 +1,4 @@
-import initSqlJs, { type Database as SqlJsDatabase } from "sql.js";
+import initSqlJs, { type Database as SqlJsDatabase } from "sql.js/dist/sql-asm.js";
 import fs from "node:fs";
 import path from "node:path";
 import type { QuotePayload } from "@/types/quote";
@@ -9,7 +9,7 @@ let writeQueue = Promise.resolve();
 
 async function getDatabase() {
   if (!database) {
-    const SQL = await initSqlJs({ locateFile: (file) => path.join(process.cwd(), "node_modules", "sql.js", "dist", file) });
+    const SQL = await initSqlJs();
     const source = fs.existsSync(databasePath) ? fs.readFileSync(databasePath) : undefined;
     database = new SQL.Database(source);
     database.run(`

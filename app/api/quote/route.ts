@@ -12,7 +12,8 @@ export async function POST(request: Request) {
   try {
     const id = await saveQuote(result.data);
     return NextResponse.json({ accepted: true, id, quote: result.data }, { status: 201 });
-  } catch {
+  } catch (error) {
+    console.error("Quote persistence failed", error);
     return NextResponse.json({ error: "La demande n'a pas pu être enregistrée." }, { status: 503 });
   }
 }

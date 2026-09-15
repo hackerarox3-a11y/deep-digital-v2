@@ -136,8 +136,10 @@ export function Studio() {
       <div className="studio__intro"><p className="eyebrow">Digital Customization Engine</p><h2 className="section-heading">Configurez votre vêtement personnalisé</h2><p className="section-description">Notre studio virtuel vous permet de personnaliser instantanément votre vêtement haut de gamme avec vos propres photos, motifs ou textes, le tout avec un aperçu réel en temps réel.</p></div>
       <div className="studio__shell">
         <aside className="studio-controls" aria-label="Outils du Studio">
-          <div className="tool-tabs">{toolLabels.map(([tool, label]) => <button key={tool} type="button" className={cn(activeTool === tool && "is-active")} onClick={() => setActiveTool(tool)}>{label}</button>)}</div>
+          <div className="tool-tabs" role="tablist" aria-label="Étapes de personnalisation">{toolLabels.map(([tool, label], index) => <button key={tool} type="button" role="tab" aria-selected={activeTool === tool} className={cn(activeTool === tool && "is-active")} onClick={() => setActiveTool(tool)}><span>{label}</span><small>0{index + 1}</small></button>)}</div>
+          <div className="tool-progress" aria-hidden="true"><span style={{ width: `${((toolLabels.findIndex(([tool]) => tool === activeTool) + 1) / toolLabels.length) * 100}%` }} /></div>
           <div className="tool-panel">
+            <motion.div key={activeTool} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.24 }}>
             {activeTool === "garment" && <><h3>Quel support pour votre projet ?</h3><p>Tous nos textiles sont bio et certifiés équitables.</p>{products.map((product) => <button type="button" key={product.id} onClick={() => patch({ product, fabric: product.name === "Hoodies" ? fabrics[1] : product.name === "Tote Bags" ? fabrics[2] : fabrics[0],  technique: product.technique.includes("Broderie")
       ? "Broderie"
       : "DTF Premium",
@@ -148,6 +150,7 @@ export function Studio() {
             {activeTool === "type" && <><h3>Typographie &amp; calques</h3><button type="button" className="button button--light button--small" onClick={addText}>Ajouter un texte +</button>{selectedLayer?.type === "text" && <><label className="field-label">Texte<textarea value={selectedLayer.content} onChange={(event) => updateLayer(selectedLayer.id, { content: event.target.value })} /></label><label className="field-label">Police<select value={selectedLayer.font} onChange={(event) => updateLayer(selectedLayer.id, { font: event.target.value })}>{fonts.map((font) => <option key={font}>{font}</option>)}</select></label></>}{studio.layers.map((layer) => <button type="button" key={layer.id} className={cn("layer-row", selectedLayerId === layer.id && "is-selected")} onClick={() => setSelectedLayerId(layer.id)}><span>{layer.type === "image" ? "▧" : "T"}</span>{layer.name}<small>{layer.visible ? "●" : "○"}</small></button>)}</>}
             {activeTool === "photos" && <><h3>Photos inspiration</h3><p>Ajoutez votre logo, votre photo principale ou une inspiration. Votre fichier reste dans votre navigateur.</p><label className="upload-zone"><input type="file" accept="image/*" onChange={(event) => uploadImage(event.target.files?.[0])} /><span>Déposer une image<br /><small>PNG, JPG ou WEBP</small></span></label></>}
             {activeTool === "price" && <><h3>Estimation</h3><p>Choisissez la taille et la technique de production.</p><label className="field-label">Technique<select value={studio.technique} onChange={(event) => patch({ technique: event.target.value })}><option>DTF Premium</option><option>Sérigraphie</option><option>Broderie</option><option>Impression Numérique</option></select></label><div className="estimate"><span>Devis global estimé</span><strong>{formatCfa(price)}</strong><small>HT</small></div></>}
+            </motion.div>
           </div>
         </aside>
         <div className="studio-preview">
