@@ -13,7 +13,7 @@ Reconstruction premium de la plateforme **Deep Digital**, pensée pour préserve
 - Header intelligent et navigation fluide.
 - Catalogue animé avec reveal, zoom et focus technique.
 - Commande WhatsApp directe par modèle : la variante sélectionnée et son image précise sont jointes via le partage natif quand disponible ; sinon, le message contient le lien direct de cette image.
-- Sélection de taille (S à XXL) et couleur (Noir ou Blanc) pour les T-Shirts, Hoodies, Boxers et Polos ; les choix sont repris dans le message WhatsApp.
+- Options visuelles et tactiles pour choisir taille (S à XXL), couleur (Noir ou Blanc) et mode d’impression pour les T-Shirts, Hoodies, Boxers et Polos ; les choix sont repris dans le message WhatsApp.
 - Diaporama de dix visuels dans les Réalisations et diaporama des variantes de T-shirts, avec navigation et sélection synchronisée à la commande.
 - Navigation directe vers les réalisations de l'atelier.
 - Avis clients à défilement progressif.

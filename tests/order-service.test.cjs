@@ -79,5 +79,19 @@ test("includes the chosen standard size and color in the WhatsApp order", () => 
 
   assert.match(message, /Taille choisie : XL/);
   assert.match(message, /Couleur choisie : Blanc/);
+  assert.match(message, /Technique recommandée : Broderie ou DTF/);
   assert.doesNotMatch(message, /Taille souhaitée : à préciser/);
+});
+
+test("includes the selected print method instead of only the product recommendation", () => {
+  const message = buildProductOrderWhatsAppMessage(
+    product,
+    "https://deep-digital.example",
+    product.image,
+    product.name,
+    { size: "M", color: "Noir", printMethod: "DTF" },
+  );
+
+  assert.match(message, /Mode d'impression choisi : DTF/);
+  assert.doesNotMatch(message, /Technique recommandée : Broderie ou DTF/);
 });

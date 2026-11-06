@@ -4,6 +4,7 @@ import type { Product } from "@/types/catalogue";
 export type OrderSelections = {
   size?: string;
   color?: string;
+  printMethod?: string;
 };
 
 export function buildProductOrderWhatsAppMessage(
@@ -22,8 +23,8 @@ export function buildProductOrderWhatsAppMessage(
     ...(imageUrl ? [`Image exacte du modèle : ${imageUrl}`] : []),
     ...(selections.size ? [`Taille choisie : ${selections.size}`] : []),
     ...(selections.color ? [`Couleur choisie : ${selections.color}`] : []),
+    `${selections.printMethod ? "Mode d'impression choisi" : "Technique recommandée"} : ${selections.printMethod ?? product.technique}`,
     `Prix indicatif : ${product.price.toLocaleString("fr-FR")} F CFA HT`,
-    `Technique recommandée : ${product.technique}`,
     `Couleurs disponibles : ${product.colors.join(", ")}`,
     "Quantité : 1",
     ...(selections.size ? [] : ["Taille souhaitée : à préciser"]),

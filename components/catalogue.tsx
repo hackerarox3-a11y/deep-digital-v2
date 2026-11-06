@@ -78,101 +78,138 @@ export function Catalogue() {
       <div className="catalogue__grid">
         {products.map((product, index) => {
           const hasStandardOptions = selectableProductKinds.has(product.kind);
+          const printMethods = product.technique.split(/\s+ou\s+/i);
           const selections = selectedOptions[product.id] ?? {
             size: standardSizes[0],
             color: product.colors[0],
+            printMethod: printMethods[0],
           };
 
           return (
-          <motion.article
-            className={`product-card product-card--${product.kind}`}
-            key={product.id}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ delay: index * 0.06, duration: 0.55 }}
-            whileHover={{ y: -8 }}
-          >
-            <div className="product-card__visual">
-              <ImageSlideshow
-                slides={product.images ?? [{
-                  src: product.image ?? "",
-                  alt: product.name,
-                  label: product.name,
-                }]}
-                label={`Diaporama des modèles ${product.name}`}
-                autoPlayMs={product.kind === "tshirt" ? 6000 : undefined}
-                onSlideChange={(slide) => setSelectedModels((current) => ({ ...current, [product.id]: slide }))}
-              />
-            </div>
-            {product.kind === "tshirt" && (
-              <p className="product-card__selection">
-                Modèle sélectionné : {selectedModels[product.id]?.label ?? product.images?.[0]?.label ?? product.name}
-              </p>
-            )}
-            {hasStandardOptions && (
-              <div className="product-card__options">
-                <label htmlFor={`size-${product.id}`}>Taille</label>
-                <select
-                  id={`size-${product.id}`}
-                  value={selections.size}
-                  onChange={(event) => setSelectedOptions((current) => ({
-                    ...current,
-                    [product.id]: { ...selections, size: event.target.value },
-                  }))}
-                  aria-label={`Taille ${product.name}`}
-                >
-                  {standardSizes.map((size) => <option key={size} value={size}>{size}</option>)}
-                </select>
-                <label htmlFor={`color-${product.id}`}>Couleur</label>
-                <select
-                  id={`color-${product.id}`}
-                  value={selections.color}
-                  onChange={(event) => setSelectedOptions((current) => ({
-                    ...current,
-                    [product.id]: { ...selections, color: event.target.value },
-                  }))}
-                  aria-label={`Couleur ${product.name}`}
-                >
-                  {product.colors.map((color) => <option key={color} value={color}>{color}</option>)}
-                </select>
+            <motion.article
+              className={`product-card product-card--${product.kind}`}
+              key={product.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ delay: index * 0.06, duration: 0.55 }}
+              whileHover={{ y: -8 }}
+            >
+              <div className="product-card__visual">
+                <ImageSlideshow
+                  slides={product.images ?? [{
+                    src: product.image ?? "",
+                    alt: product.name,
+                    label: product.name,
+                  }]}
+                  label={`Diaporama des modèles ${product.name}`}
+                  autoPlayMs={product.kind === "tshirt" ? 6000 : undefined}
+                  onSlideChange={(slide) => setSelectedModels((current) => ({ ...current, [product.id]: slide }))}
+                />
               </div>
-            )}
-            <div className="product-card__meta"><span>{product.weight}</span><span>{product.label}</span></div>
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
-            <details className="product-card__details"><summary>Fiche détaillée</summary><span>Grammage {product.weight} · Technique recommandée : {product.technique}.</span></details>
-            <div className="product-card__footer">
-              <span>Dès {product.price.toLocaleString("fr-FR")} F CFA</span>
-              <a
-                className="button button--small button--dark"
-                href={buildProductOrderWhatsAppUrl(
-                  product,
-                  site.url,
-                  selectedModels[product.id]?.src ?? product.images?.[0]?.src ?? product.image,
-                  selectedModels[product.id]?.label ?? product.images?.[0]?.label ?? product.name,
-                  selections,
-                )}
-                onClick={(event) => {
-                  event.preventDefault();
-                  void shareOrder(
+              {product.kind === "tshirt" && (
+                <p className="product-card__selection">
+                  Modèle sélectionné : {selectedModels[product.id]?.label ?? product.images?.[0]?.label ?? product.name}
+                </p>
+              )}
+              {hasStandardOptions && (
+                <div className="product-card__options">
+                  <div className="product-card__option-group" role="group" aria-label={`Taille ${product.name}`}>
+                    <span className="product-card__option-label">Taille</span>
+                    <div className="product-card__size-list">
+                      {standardSizes.map((size) => (
+                        <button
+                          key={size}
+                          type="button"
+                          className={`product-card__size-option${selections.size === size ? " is-selected" : ""}`}
+                          aria-pressed={selections.size === size}
+                          onClick={() => setSelectedOptions((current) => ({
+                            ...current,
+                            [product.id]: { ...(current[product.id] ?? selections), size },
+                          }))}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="product-card__option-group" role="group" aria-label={`Couleur ${product.name}`}>
+                    <span className="product-card__option-label">Couleur</span>
+                    <div className="product-card__color-list">
+                      {product.colors.map((color) => (
+                        <button
+                          key={color}
+                          type="button"
+                          className={`product-card__color-option${color === "Noir" ? " product-card__color-option--black" : " product-card__color-option--white"}${selections.color === color ? " is-selected" : ""}`}
+                          aria-pressed={selections.color === color}
+                          aria-label={color}
+                          onClick={() => setSelectedOptions((current) => ({
+                            ...current,
+                            [product.id]: { ...(current[product.id] ?? selections), color },
+                          }))}
+                        >
+                          <span className="product-card__color-swatch" aria-hidden="true" />
+                          {color}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="product-card__option-group product-card__option-group--print" role="group" aria-label={`Mode d'impression ${product.name}`}>
+                    <span className="product-card__option-label">Mode d’impression</span>
+                    <div className="product-card__print-list">
+                      {printMethods.map((method) => (
+                        <button
+                          key={method}
+                          type="button"
+                          className={`product-card__print-option${selections.printMethod === method ? " is-selected" : ""}`}
+                          aria-pressed={selections.printMethod === method}
+                          onClick={() => setSelectedOptions((current) => ({
+                            ...current,
+                            [product.id]: { ...(current[product.id] ?? selections), printMethod: method },
+                          }))}
+                        >
+                          {method}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="product-card__meta"><span>{product.weight}</span><span>{product.label}</span></div>
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+              <details className="product-card__details"><summary>Fiche détaillée</summary><span>Grammage {product.weight} · Technique recommandée : {product.technique}.</span></details>
+              <div className="product-card__footer">
+                <span>Dès {product.price.toLocaleString("fr-FR")} F CFA</span>
+                <a
+                  className="button button--small button--dark"
+                  href={buildProductOrderWhatsAppUrl(
                     product,
-                    selectedModels[product.id] ?? {
-                      src: product.image ?? "",
-                      alt: product.name,
-                      label: product.name,
-                    },
+                    site.url,
+                    selectedModels[product.id]?.src ?? product.images?.[0]?.src ?? product.image,
+                    selectedModels[product.id]?.label ?? product.images?.[0]?.label ?? product.name,
                     selections,
-                  );
-                }}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Commander ${product.name} sur WhatsApp`}
-              >
-                Commander <span aria-hidden>↗</span>
-              </a>
-            </div>
-          </motion.article>
+                  )}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    void shareOrder(
+                      product,
+                      selectedModels[product.id] ?? {
+                        src: product.image ?? "",
+                        alt: product.name,
+                        label: product.name,
+                      },
+                      selections,
+                    );
+                  }}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Commander ${product.name} sur WhatsApp`}
+                >
+                  Commander <span aria-hidden>↗</span>
+                </a>
+              </div>
+            </motion.article>
           );
         })}
       </div>
