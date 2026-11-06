@@ -10,6 +10,6 @@ export const site = {
 
 export const navigation = [
   { label: "Modèles", href: "#modeles" },
-  { label: "Studio", href: "#studio" },
+  { label: "Réalisations", href: "#realisations" },
   { label: "Contact", href: "#contact" },
 ] as const;

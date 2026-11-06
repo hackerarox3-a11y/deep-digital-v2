@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { site } from "@/constants/site";
 
 const heroSlides = [
   { src: "/112.png", alt: "Collection Deep Digital portée par plusieurs modèles" },
@@ -29,10 +30,10 @@ export function Hero() {
           <span className="hero__deep">Personnalisez</span>
           <span className="hero__digital">votre identité.</span>
         </motion.h1>
-        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.6 }} className="hero__lede">Des pièces pensées pour être vues, portées et reconnues. Choisissez votre support, ajoutez votre univers.</motion.p>
+        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.6 }} className="hero__lede">Des pièces pensées pour être vues, portées et reconnues. Choisissez un modèle, puis finalisez votre commande directement avec notre équipe sur WhatsApp.</motion.p>
         <div className="hero__actions">
-          <motion.a whileHover={reduceMotion ? {} : { scale: 1.03 }} whileTap={{ scale: 0.98 }} href="#studio" className="button button--light hero__button">Personnaliser <span aria-hidden>↗</span></motion.a>
-          <a href="#modeles" className="button button--ghost hero__button hero__button--ghost">Voir les modèles</a>
+          <motion.a whileHover={reduceMotion ? {} : { scale: 1.03 }} whileTap={{ scale: 0.98 }} href="#modeles" className="button button--light hero__button">Voir les modèles <span aria-hidden>↗</span></motion.a>
+          <a href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent("Bonjour Deep Digital, je souhaite passer une commande.")}`} target="_blank" rel="noreferrer" className="button button--ghost hero__button hero__button--ghost">WhatsApp direct</a>
         </div>
       </div>
       <motion.div

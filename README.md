@@ -1,22 +1,20 @@
 # Deep Digital — Version 2
 
-Reconstruction premium de la plateforme **Deep Digital**, pensée pour préserver son identité éditoriale : noir, blanc, rouge, typographie ample et expérience de personnalisation textile au premier plan.
+Reconstruction premium de la plateforme **Deep Digital**, pensée pour préserver son identité éditoriale : noir, blanc, rouge et typographie ample. Le catalogue mène directement à la commande avec l'atelier sur WhatsApp.
 
 ## Parcours conservé
 
-1. Découverte de la marque et accès au Studio via « Personnaliser ».
-2. Consultation des supports textiles premium.
-3. Personnalisation Recto/Verso, couleur, typographie et photos.
-4. Estimation de devis, sans paiement en ligne.
-5. Export direct de la demande vers WhatsApp Business.
-6. Prise de contact via WhatsApp, Instagram, téléphone, email ou carte.
+1. Découverte de la marque et consultation des supports textiles.
+2. Choix d'un modèle et ouverture d'une commande préremplie dans WhatsApp.
+3. Envoi du message, puis confirmation de la taille, couleur, quantité, disponibilité, montant total et livraison avec l'atelier.
 
 ## Améliorations V2
 
 - Header intelligent et navigation fluide.
 - Catalogue animé avec reveal, zoom et focus technique.
-- Studio avec calques, déplacements, grille, guides, duplication, annulation/rétablissement, sauvegarde locale et panier qui conserve séparément les designs réellement différents.
-- Aperçu 360° léger, zoom, vue Recto/Verso, comparaison avant/après et export PNG/PDF imprimable.
+- Commande WhatsApp directe par modèle : la variante sélectionnée et son image précise sont jointes via le partage natif quand disponible ; sinon, le message contient le lien direct de cette image.
+- Diaporama de dix visuels dans les Réalisations et diaporama des variantes de T-shirts, avec navigation et sélection synchronisée à la commande.
+- Navigation directe vers les réalisations de l'atelier.
 - Avis clients à défilement progressif.
 - Contacts activables, copie du numéro/email et carte d’Abidjan.
 - Accessibilité : focus visibles, boutons nommés, contraste élevé et respect de `prefers-reduced-motion`.
@@ -34,7 +32,9 @@ Ouvrir ensuite `http://localhost:3000`.
 
 ## Base de données
 
-Les demandes envoyées à `POST /api/quote` sont enregistrées dans SQLite. En développement, le fichier par défaut est `data/deep-digital.sqlite` et reste ignoré par Git. En production, `DATABASE_PATH` doit désigner un fichier situé dans un dossier absolu, persistant et accessible en écriture.
+Le catalogue des modèles et les images des diaporamas sont définis dans `data/catalogue.ts` et `components/realisations.tsx` ; ils ne sont pas administrés par SQLite. Seules les demandes envoyées à `POST /api/quote` sont enregistrées dans la base `quotes`. Les commandes du catalogue sont finalisées dans WhatsApp et ne sont pas enregistrées dans cette table.
+
+En développement, le fichier SQLite par défaut est `data/deep-digital.sqlite`. Il est ignoré par Git afin de ne pas publier les demandes clients. En production, `DATABASE_PATH` doit désigner un fichier situé dans un dossier absolu, persistant et accessible en écriture. Une mise à jour du code sur GitHub ne remplace ni ne synchronise la base de production : configure et sauvegarde-la séparément sur Hostinger.
 
 ### Protections et sauvegardes
 
@@ -57,15 +57,13 @@ Les en-têtes HTTP incluent la désactivation du fingerprinting Next.js, la prot
 
 ```text
 app/           routes, métadonnées et API
-components/    sections de la vitrine et composants Studio
+components/    sections de la vitrine
 animations/    primitives Motion réutilisables
 constants/     URLs et valeurs éditoriales stables
-data/          catalogue, avis et options du Studio
-hooks/         interactions persistantes
+data/          catalogue et avis
 lib/           helpers purs
-services/      sérialisation du devis et WhatsApp
+services/      préparation des commandes WhatsApp
 types/         contrats TypeScript
-utils/         export PNG/PDF et formatage
 public/        favicon et ressources statiques
 ```
 
@@ -73,9 +71,9 @@ L’inventaire exhaustif de la version publique et les choix de conservation son
 
 ## À connecter avant mise en production
 
-- Le numéro WhatsApp dans `constants/site.ts` utilise le numéro public actuel, sans caractère `+` dans l’URL.
+- Le numéro WhatsApp dans `constants/site.ts` doit correspondre au compte de commande officiel, sans caractère `+` dans l’URL.
 - L’API `app/api/quote/route.ts` valide et prépare la demande : connectez-la au CRM, email transactionnel ou table de production souhaitée.
-- Le Studio sauvegarde localement dans le navigateur ; brancher un compte client/API pour une synchronisation multi-appareils.
+- Les commandes initiées depuis le catalogue sont envoyées à WhatsApp ; confirmer les prix, tailles, couleurs, disponibilités et modalités de livraison avec le client avant production.
 
 ## Vérification recommandée
 
@@ -137,7 +135,7 @@ npm run start
 
 - tester `https://votre-domaine.com/api/quote` avec une requête POST
 - vérifier que la base SQLite se crée bien dans le chemin défini par `DATABASE_PATH`
-- vérifier le formulaire de devis, le WhatsApp, les liens de contact et les pages SEO
+- tester le bouton de commande de chaque modèle, l'ouverture de WhatsApp, les liens de contact et les pages SEO
 - activer TLS/HTTPS via le panneau Hostinger
 
 ### 5. Recommandation importante

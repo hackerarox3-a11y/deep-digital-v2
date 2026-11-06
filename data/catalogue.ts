@@ -11,6 +11,11 @@ export const products: Product[] = [
     price: 16000,
     colors: ["Noir Onyx", "Blanc Optique", "Rouge Deep"],
     image: "/tshirt.png",
+    images: [
+      { src: "/tshirt.png", label: "T-shirt personnalisé", alt: "T-shirt personnalisé avec impression photo" },
+      { src: "/mockups/tshirt-front.png", label: "Modèle vue avant", alt: "Modèle de T-shirt noir vu de face" },
+      { src: "/mockups/tshirt-back.png", label: "Modèle vue arrière", alt: "Modèle de T-shirt noir vu de dos" },
+    ],
     kind: "tshirt",
   },
   {

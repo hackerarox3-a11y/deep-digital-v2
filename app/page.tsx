@@ -4,7 +4,6 @@ import { Hero } from "@/components/hero";
 import { Realisations } from "@/components/realisations";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { Studio } from "@/components/studio/studio";
 import { Testimonials } from "@/components/testimonials";
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
       <Hero />
       <Catalogue />
       <Realisations />
-      <Studio />
       <Testimonials />
       <Contact />
       <SiteFooter />

@@ -7,7 +7,7 @@ import { site } from "@/constants/site";
 const contacts = [
   ["Instant Chat", "WhatsApp Business", "Dispo 7j/7 • Réponse < 15 min", `https://wa.me/${site.whatsappNumber}`],
   ["Social Portfolio", site.instagram, "Galerie & Coulisses", "https://www.instagram.com/deep_digital/"],
-  ["Hotline Studio", site.whatsappDisplay, "Lun - Ven : 9h - 19h", `tel:${site.whatsappDisplay.replace(/\s/g, "")}`],
+  ["Commandes", site.whatsappDisplay, "Lun - Ven : 9h - 19h", `tel:${site.whatsappDisplay.replace(/\s/g, "")}`],
   ["Email Officiel", site.email, "Devenir Revendeur / B2B", `mailto:${site.email}`],
 ] as const;
 
@@ -21,7 +21,7 @@ export function Contact() {
 
   return (
     <section id="contact" className="contact section-shell">
-      <SectionHeading eyebrow="Connect with our studio | Contact" title="Discutons de votre projet créatif." description="Que vous ayez une idée de logo déjà dessinée ou besoin d'un accompagnement complet de design, notre équipe est disponible immédiatement par message pour chiffrer votre production." />
+      <SectionHeading eyebrow="Votre commande | Contact" title="Finalisons votre commande." description="Notre équipe confirme avec vous la disponibilité, les tailles, les couleurs, le montant total et les modalités de livraison directement par WhatsApp." />
       <div className="contact__layout">
         <div className="contact__cards">
           {contacts.map(([label, value, note, href]) => (

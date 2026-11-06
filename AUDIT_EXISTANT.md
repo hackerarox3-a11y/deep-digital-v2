@@ -4,11 +4,12 @@ Source analysée : `https://deep-digit.vercel.app` le 13 juillet 2026.
 
 ## Pages et routes
 
-Le site public est une **page unique**. Les ancres de navigation sont :
+Le site public est une **page unique**. Les ancres de navigation du site de référence sont :
 
 - `#modeles` — catalogue ;
-- `#studio` — configurateur ;
 - `#contact` — contacts et carte.
+
+Dans l'évolution V2, la navigation ajoute également `#realisations`.
 
 Il n’expose pas de tunnel de paiement : le passage à la commande est une discussion WhatsApp avec l’atelier.
 
@@ -16,12 +17,11 @@ Il n’expose pas de tunnel de paiement : le passage à la commande est une disc
 
 | Section | Textes / informations relevés | Interaction existante |
 | --- | --- | --- |
-| Header | `DEEP DIGITAL`, `Modèles`, `Studio`, `Contact`, `Personnaliser` | Ancres vers les sections |
-| Hero | `PERSONNALISEZ VOTRE IDENTITÉ`, `T-shirts, hoodies, polos et accessoires créés à votre image.` | CTA `Personnaliser` |
-| Catalogue | `Des supports textiles sélectionnés pour leur tenue irréprochable.`, `No cheap fabrics No basic prints`, `Seulement le meilleur pour votre vêtement personnalisé d'exception.` | Cartes produits |
-| Studio | `Configurez votre vêtement personnalisé` et la description du studio virtuel | Recto/Verso, choix de support, couleur, typo, photos, prix, taille, WhatsApp |
+| Header | `DEEP DIGITAL`, `Modèles`, `Contact`, `Commander` | Ancres vers les sections |
+| Hero | `PERSONNALISEZ VOTRE IDENTITÉ`, `T-shirts, hoodies, polos et accessoires créés à votre image.` | CTA vers le catalogue et WhatsApp direct |
+| Catalogue | `Des supports textiles sélectionnés pour leur tenue irréprochable.`, `No cheap fabrics No basic prints`, `Seulement le meilleur pour votre vêtement personnalisé d'exception.` | Cartes produits et commandes WhatsApp |
 | Avis | `Ceux qui créent avec nous.` et les trois témoignages | Cartes témoignages |
-| Contact | `Discutons de votre projet créatif.` et le texte d’accompagnement | WhatsApp, Instagram, téléphone, email, Google Maps |
+| Contact | `Finalisons votre commande.` et les modalités de confirmation | WhatsApp, Instagram, téléphone, email, Google Maps |
 | Footer | Présentation de l’atelier, Navigation, Légal & B2B, copyright | Ancres et retour en haut |
 
 ## Catalogue existant
@@ -36,45 +36,35 @@ Le brief métier impose également la conservation des **Polos**, **Casquettes**
 
 ## Composants et boutons existants
 
-- Header et logo typographique ; navigation d’ancres ; CTA `Personnaliser`.
+- Header et logo typographique ; navigation d’ancres ; CTA `Commander`.
 - Hero à visuel textile.
-- Cartes catalogue et flèche de passage au Studio.
-- Studio : `Recto`, `Verso`, `Vêt.`, `Couleur`, `Typo`, `Photos`, `Prix`.
-- Choix de support : `T-shirt dès 16 000 F`, `Sweat Capuche dès 17 000 F`, `Tote Bag dès 15 500 F`.
-- Tailles : `XS`, `S`, `M`, `L`, `XL`, `XXL`.
-- CTA `Exporter vers WhatsApp`.
+- Cartes catalogue avec prix indicatif et commande directe via WhatsApp.
 - Cartes contact : WhatsApp Business, `@deep_digital`, `+225 01 41 45 16 20`, `contact@deepdigital.studio`.
 - Carte Google et bouton `Ouvrir dans Google Maps`.
-- Footer : `Modèles`, `Studio Créatif`, `Mentions Légales`, `CGV & CGU`, `Retour en haut`.
+- Footer : commande d’un modèle, contact, informations légales et retour en haut.
 
 ## Formulaires et logique métier
 
-Il n’y a pas de formulaire de paiement ni de panier. Le Studio est le formulaire de configuration :
-
-- support textile ;
-- face Recto / Verso ;
-- couleur et tissu ;
-- typographie ;
-- photo principale / inspirations ;
-- taille ;
-- estimation ;
-- export de la demande via WhatsApp.
-
-L’estimation actuelle visible est `16 000 F CFA HT` pour la configuration par défaut et précise qu’aucun paiement n’est requis en ligne.
+Il n’y a pas de paiement en ligne. Chaque modèle ouvre WhatsApp avec une demande de commande préremplie ; le client précise la taille, la couleur et la quantité puis confirme le prix final, le délai et la livraison avec l’atelier.
 
 ## Parcours utilisateur conservé
 
 1. L’utilisateur découvre le positionnement premium depuis le hero.
 2. Il consulte les supports et leurs caractéristiques techniques.
-3. Il ouvre le Studio, choisit un vêtement, sa face, sa couleur, son design et sa taille.
-4. Il consulte l’estimation.
-5. Il exporte vers WhatsApp afin de finaliser la maquette HD avec l’atelier.
-6. Il peut alternativement contacter Deep Digital, consulter Instagram ou localiser l’atelier à Abidjan.
+3. Il choisit un modèle et ouvre le message de commande correspondant dans WhatsApp.
+4. Il envoie sa demande puis finalise taille, couleur, quantité, prix et livraison avec l’atelier.
+5. Il peut alternativement contacter Deep Digital, consulter Instagram ou localiser l’atelier à Abidjan.
 
 ## Proposition V2 sans changement d’identité
 
 - Conserver le noir, blanc, rouge Deep Digital, l’éditorial ample et l’imagerie textile.
 - Garder la page vitrine à forte direction artistique, sans bascule vers un dashboard ou une interface SaaS.
 - Ajouter un motion discret : reveals, hover, zoom image, header glassmorphism, slider d’avis et feedback de contact.
-- Étendre le Studio sans le remplacer : calques, guides, grille, snap intelligent, zoom, rotation, historique, brouillon local, comparaison et exports.
-- Préserver WhatsApp comme étape commerciale finale et ne jamais introduire de paiement en ligne.
+- Préserver WhatsApp comme étape commerciale de commande et ne pas introduire de paiement en ligne.
+
+## Évolutions livrées en V2
+
+- Le Studio a été retiré ; chaque carte produit lance le parcours de commande WhatsApp.
+- Le diaporama Réalisations contient dix images locales du dossier `public/`.
+- Le T-shirt possède trois vues sélectionnables. La vue choisie est identifiée dans le message et son image précise est partagée quand le navigateur le permet ; le lien direct de l'image sert de solution de repli.
+- Le catalogue et les visuels sont des données de l'application, pas des enregistrements SQLite. La base SQLite persiste uniquement les demandes de `POST /api/quote` ; le parcours WhatsApp n'enregistre pas les commandes dans cette base.

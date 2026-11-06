@@ -16,7 +16,7 @@ export function SiteHeader() {
       <nav aria-label="Navigation principale" className="site-header__nav">
         {navigation.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
       </nav>
-      <a href="#studio" className="button button--light site-header__cta">Personnaliser <span aria-hidden>↗</span></a>
+      <a href="#modeles" className="button button--light site-header__cta">Commander <span aria-hidden>↗</span></a>
     </motion.header>
   );
 }
