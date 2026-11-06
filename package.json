@@ -12,6 +12,9 @@
     "test": "node --test tests/*.test.cjs",
     "db:backup": "node scripts/backup-database.cjs"
   },
+  "allowScripts": {
+    "sharp@0.34.5": true
+  },
   "dependencies": {
     "@types/sql.js": "^1.4.11",
     "framer-motion": "^12.9.2",
