@@ -15,7 +15,7 @@ export function Testimonials() {
   }, [reduceMotion]);
   return (
     <section className="testimonials section-shell">
-      <SectionHeading eyebrow="Trusted by creators | Avis clients" title="Ceux qui créent avec nous." description="Particuliers, marques émergentes, associations et grandes entreprises confient leur image à notre atelier." />
+      <SectionHeading eyebrow="Ils nous font confiance | Avis clients" title="Ceux qui créent avec nous." description="Particuliers, marques émergentes, associations et entreprises confient leur image à notre atelier." />
       <div className="testimonials__viewport">
       <motion.div className="testimonials__track" aria-label="Avis clients" animate={{ x: `${active * -100}%` }} transition={{ type: "spring", stiffness: 105, damping: 19 }}>
         {testimonials.map((item, index) => (

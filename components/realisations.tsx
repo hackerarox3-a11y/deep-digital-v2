@@ -21,8 +21,8 @@ const projects: ImageSlide[] = [
     src: "/df/dfs.jpg",
   },
   {
-    label: "Sweatshirts personnalisés",
-    alt: "Sweatshirts et T-shirts personnalisés portés par des modèles",
+    label: "Sweats personnalisés",
+    alt: "Sweats et t-shirts personnalisés portés par des modèles",
     src: "/df/nb.jpg",
   },
   {
@@ -63,9 +63,9 @@ export function Realisations() {
   return (
     <section className="realisations section-shell" id="realisations">
       <SectionHeading
-        eyebrow="Réalisation | Portfolio"
+        eyebrow="Nos réalisations | Galerie"
         title="Des pièces conçues pour laisser une impression durable."
-        description="Nous créons des collections premium pour les marques, groupes, événements et ateliers qui veulent une image forte et mémorable."
+        description="Nous créons des collections haut de gamme pour les marques, groupes, événements et ateliers qui veulent une image forte et mémorable."
       />
 
       <div className="realisation-card">

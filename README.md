@@ -13,7 +13,8 @@ Reconstruction premium de la plateforme **Deep Digital**, pensée pour préserve
 - Header intelligent et navigation fluide.
 - Catalogue animé avec reveal, zoom et focus technique.
 - Commande WhatsApp directe par modèle : la variante sélectionnée et son image précise sont jointes via le partage natif quand disponible ; sinon, le message contient le lien direct de cette image.
-- Options visuelles et tactiles pour choisir taille (S à XXL), couleur (Noir ou Blanc) et mode d’impression pour les T-Shirts, Hoodies, Boxers et Polos ; les choix sont repris dans le message WhatsApp.
+- Options visuelles pour choisir la taille, la couleur Noir ou Blanc et le mode d’impression des t-shirts, sweats à capuche, sweats, boxers et polos. Les coussins existent en tailles S, M et L.
+- Trois forfaits de magazine : 10 pages à 18 000 F CFA, 16 pages à 25 000 F CFA et 32 pages à 38 000 F CFA ; le format et son tarif sont repris dans le message WhatsApp.
 - Diaporama de dix visuels dans les Réalisations et diaporama des variantes de T-shirts, avec navigation et sélection synchronisée à la commande.
 - Navigation directe vers les réalisations de l'atelier.
 - Avis clients à défilement progressif.

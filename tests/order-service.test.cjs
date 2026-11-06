@@ -95,3 +95,48 @@ test("includes the selected print method instead of only the product recommendat
   assert.match(message, /Mode d'impression choisi : DTF/);
   assert.doesNotMatch(message, /Technique recommandée : Broderie ou DTF/);
 });
+
+test("includes the selected magazine page count and matching price in the WhatsApp order", () => {
+  const magazine = {
+    ...product,
+    id: "magazine",
+    name: "Magazine",
+    kind: "magazine",
+    price: 18000,
+    colors: [],
+    magazineOptions: [
+      { pages: 10, price: 18000 },
+      { pages: 16, price: 25000 },
+      { pages: 32, price: 38000 },
+    ],
+  };
+  for (const option of magazine.magazineOptions) {
+    const message = buildProductOrderWhatsAppMessage(
+      magazine,
+      "https://deep-digital.example",
+      magazine.image,
+      magazine.name,
+      { pages: option.pages },
+    );
+
+    assert.match(message, new RegExp(`Format choisi : ${option.pages} pages`));
+    assert.match(message, new RegExp(`Prix indicatif : ${option.price.toLocaleString("fr-FR").replace(/\s/g, "[\\s\\u202f]")} F CFA`));
+    assert.doesNotMatch(message, /Couleurs disponibles/);
+    assert.doesNotMatch(message, /Taille souhaitée/);
+  }
+});
+
+test("does not invent size, color, or print selections for products without those options", () => {
+  const tote = {
+    ...product,
+    id: "tote",
+    name: "Sacs en toile",
+    kind: "tote",
+    technique: "DTF ou Impression Numérique",
+  };
+
+  const message = buildProductOrderWhatsAppMessage(tote, "https://deep-digital.example");
+
+  assert.doesNotMatch(message, /Taille choisie|Taille souhaitée|Couleur choisie|Mode d'impression choisi/);
+  assert.match(message, /Technique recommandée : DTF ou Impression Numérique/);
+});

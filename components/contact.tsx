@@ -5,18 +5,26 @@ import { SectionHeading } from "@/components/section-heading";
 import { site } from "@/constants/site";
 
 const contacts = [
-  ["Instant Chat", "WhatsApp Business", "Dispo 7j/7 • Réponse < 15 min", `https://wa.me/${site.whatsappNumber}`],
-  ["Social Portfolio", site.instagram, "Galerie & Coulisses", "https://www.instagram.com/deep_digital/"],
-  ["Commandes", site.whatsappDisplay, "Lun - Ven : 9h - 19h", `tel:${site.whatsappDisplay.replace(/\s/g, "")}`],
-  ["Email Officiel", site.email, "Devenir Revendeur / B2B", `mailto:${site.email}`],
+  ["WhatsApp", "WhatsApp Business", "Disponible 7 j/7 • Réponse sous 15 min", `https://wa.me/${site.whatsappNumber}`],
+  ["Instagram", site.instagram, "Galerie et coulisses", "https://www.instagram.com/deep_digital/"],
+  ["Commandes", site.whatsappDisplay, "Du lundi au vendredi • 9 h–19 h", `tel:${site.whatsappDisplay.replace(/\s/g, "")}`],
+  ["Courriel", site.email, "Partenariats et demandes professionnelles", `mailto:${site.email}`],
 ] as const;
 
 export function Contact() {
   const [copied, setCopied] = useState("");
-  function copy(value: string) {
-    navigator.clipboard.writeText(value);
-    setCopied(value);
-    window.setTimeout(() => setCopied(""), 1800);
+  const [copyError, setCopyError] = useState("");
+  async function copy(value: string) {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(value);
+      setCopyError("");
+      window.setTimeout(() => setCopied(""), 1800);
+    } catch (error) {
+      console.error("Impossible de copier les coordonnées.", error);
+      setCopied("");
+      setCopyError("La copie a échoué. Sélectionnez les coordonnées pour les copier.");
+    }
   }
 
   return (
@@ -30,10 +38,11 @@ export function Contact() {
               <button type="button" onClick={() => copy(value)} aria-label={`Copier ${value}`}>{copied === value ? "Copié" : "Copier"}</button>
             </article>
           ))}
+          {copyError && <p className="contact__copy-error" role="status">{copyError}</p>}
         </div>
         <div className="map-card">
           <iframe title="Atelier Deep Digital à Abidjan" loading="lazy" src="https://www.google.com/maps?q=5.3285069,-4.0139607&z=14&output=embed" />
-          <div className="map-card__details"><span>Atelier ouvert en continu</span><strong>Atelier : Abidjan, Côte d&apos;Ivoire</strong><a className="button button--dark" href={site.mapUrl} target="_blank" rel="noreferrer">Ouvrir dans Google Maps <span aria-hidden>↗</span></a></div>
+          <div className="map-card__details"><span>Nous trouver</span><strong>Abidjan, Côte d&apos;Ivoire</strong><a className="button button--dark" href={site.mapUrl} target="_blank" rel="noreferrer">Ouvrir dans Google Maps <span aria-hidden>↗</span></a></div>
         </div>
       </div>
     </section>

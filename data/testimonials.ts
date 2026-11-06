@@ -1,6 +1,6 @@
 export const testimonials = [
   {
-    quote: "J’ai commandé des t-shirts personnalisés pour un anniversaire et le résultat était au-delà de mes attentes. Les couleurs sont fidèles au design et la qualité d’impression est excellente. Toute l’équipe a adoré !",
+    quote: "J’ai commandé des T-shirts personnalisés pour un anniversaire et le résultat était au-delà de mes attentes. Les couleurs sont fidèles au visuel et la qualité d’impression est excellente. Toute l’équipe a adoré !",
     name: "Sarah Diarrassouba",
     role: "Organisatrice d’événements",
     project: "Événement privé",
@@ -12,7 +12,7 @@ export const testimonials = [
     project: "JM Services",
   },
   {
-    quote: "Le configurateur est simple à utiliser et permet de voir le résultat avant de commander. Mon hoodie personnalisé est exactement comme je l’imaginais. Je reviendrai pour d’autres créations.",
+    quote: "Le choix du modèle et la commande sont simples. Mon sweat à capuche correspond exactement à mes attentes. Je reviendrai pour d’autres créations.",
     name: "Fatou Traoré",
     role: "Cliente",
     project: "Commande personnelle",
