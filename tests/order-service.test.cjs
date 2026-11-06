@@ -66,3 +66,18 @@ test("sends the selected T-shirt image and variant label instead of the default 
   assert.match(message, /Image exacte du modèle : https:\/\/deep-digital\.example\/mockups\/tshirt-back\.png/);
   assert.doesNotMatch(message, /Image exacte du modèle : https:\/\/deep-digital\.example\/tshirt\.png/);
 });
+
+test("includes the chosen standard size and color in the WhatsApp order", () => {
+  const url = new URL(buildProductOrderWhatsAppUrl(
+    { ...product, id: "hoodie", name: "Hoodies", colors: ["Noir", "Blanc"] },
+    "https://deep-digital.example",
+    product.image,
+    product.name,
+    { size: "XL", color: "Blanc" },
+  ));
+  const message = url.searchParams.get("text");
+
+  assert.match(message, /Taille choisie : XL/);
+  assert.match(message, /Couleur choisie : Blanc/);
+  assert.doesNotMatch(message, /Taille souhaitée : à préciser/);
+});

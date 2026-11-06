@@ -6,17 +6,25 @@ import { ImageSlideshow, type ImageSlide } from "@/components/image-slideshow";
 import { SectionHeading } from "@/components/section-heading";
 import { site } from "@/constants/site";
 import { products } from "@/data/catalogue";
-import { buildProductOrderWhatsAppMessage, buildProductOrderWhatsAppUrl } from "@/services/order-service";
+import {
+  buildProductOrderWhatsAppMessage,
+  buildProductOrderWhatsAppUrl,
+  type OrderSelections,
+} from "@/services/order-service";
 import type { Product } from "@/types/catalogue";
+
+const standardSizes = ["S", "M", "L", "XL", "XXL"] as const;
+const selectableProductKinds = new Set<Product["kind"]>(["tshirt", "hoodie", "boxer", "polo"]);
 
 export function Catalogue() {
   const [selectedModels, setSelectedModels] = useState<Record<string, ImageSlide>>({});
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, OrderSelections>>({});
   const [orderStatus, setOrderStatus] = useState("");
 
-  const shareOrder = async (product: Product, model: ImageSlide) => {
+  const shareOrder = async (product: Product, model: ImageSlide, selections: OrderSelections) => {
     const siteOrigin = window.location.origin;
     const imageUrl = new URL(model.src, siteOrigin);
-    const whatsappUrl = buildProductOrderWhatsAppUrl(product, siteOrigin, model.src, model.label);
+    const whatsappUrl = buildProductOrderWhatsAppUrl(product, siteOrigin, model.src, model.label, selections);
     const fallbackTab = window.open("about:blank", "_blank");
 
     if (!fallbackTab) {
@@ -37,7 +45,7 @@ export function Catalogue() {
         if (navigator.canShare({ files: [imageFile] })) {
           await navigator.share({
             files: [imageFile],
-            text: buildProductOrderWhatsAppMessage(product, siteOrigin, model.src, model.label),
+            text: buildProductOrderWhatsAppMessage(product, siteOrigin, model.src, model.label, selections),
           });
           fallbackTab.close();
           setOrderStatus("Choisissez WhatsApp dans le menu de partage pour joindre l’image sélectionnée.");
@@ -68,7 +76,14 @@ export function Catalogue() {
         description="Seulement le meilleur pour votre vêtement personnalisé d'exception."
       />
       <div className="catalogue__grid">
-        {products.map((product, index) => (
+        {products.map((product, index) => {
+          const hasStandardOptions = selectableProductKinds.has(product.kind);
+          const selections = selectedOptions[product.id] ?? {
+            size: standardSizes[0],
+            color: product.colors[0],
+          };
+
+          return (
           <motion.article
             className={`product-card product-card--${product.kind}`}
             key={product.id}
@@ -95,6 +110,34 @@ export function Catalogue() {
                 Modèle sélectionné : {selectedModels[product.id]?.label ?? product.images?.[0]?.label ?? product.name}
               </p>
             )}
+            {hasStandardOptions && (
+              <div className="product-card__options">
+                <label htmlFor={`size-${product.id}`}>Taille</label>
+                <select
+                  id={`size-${product.id}`}
+                  value={selections.size}
+                  onChange={(event) => setSelectedOptions((current) => ({
+                    ...current,
+                    [product.id]: { ...selections, size: event.target.value },
+                  }))}
+                  aria-label={`Taille ${product.name}`}
+                >
+                  {standardSizes.map((size) => <option key={size} value={size}>{size}</option>)}
+                </select>
+                <label htmlFor={`color-${product.id}`}>Couleur</label>
+                <select
+                  id={`color-${product.id}`}
+                  value={selections.color}
+                  onChange={(event) => setSelectedOptions((current) => ({
+                    ...current,
+                    [product.id]: { ...selections, color: event.target.value },
+                  }))}
+                  aria-label={`Couleur ${product.name}`}
+                >
+                  {product.colors.map((color) => <option key={color} value={color}>{color}</option>)}
+                </select>
+              </div>
+            )}
             <div className="product-card__meta"><span>{product.weight}</span><span>{product.label}</span></div>
             <h3>{product.name}</h3>
             <p>{product.description}</p>
@@ -108,14 +151,19 @@ export function Catalogue() {
                   site.url,
                   selectedModels[product.id]?.src ?? product.images?.[0]?.src ?? product.image,
                   selectedModels[product.id]?.label ?? product.images?.[0]?.label ?? product.name,
+                  selections,
                 )}
                 onClick={(event) => {
                   event.preventDefault();
-                  void shareOrder(product, selectedModels[product.id] ?? {
-                    src: product.image ?? "",
-                    alt: product.name,
-                    label: product.name,
-                  });
+                  void shareOrder(
+                    product,
+                    selectedModels[product.id] ?? {
+                      src: product.image ?? "",
+                      alt: product.name,
+                      label: product.name,
+                    },
+                    selections,
+                  );
                 }}
                 target="_blank"
                 rel="noreferrer"
@@ -125,7 +173,8 @@ export function Catalogue() {
               </a>
             </div>
           </motion.article>
-        ))}
+          );
+        })}
       </div>
       <p className="catalogue__share-note" aria-live="polite">
         {orderStatus || "Sur les appareils compatibles, le menu de partage joint l’image choisie ; sinon son lien exact est ajouté à WhatsApp."}

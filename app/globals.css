@@ -102,6 +102,10 @@ img { max-width:100%; display:block; }
 .realisation-card__body span { color:var(--red); font-size:.64rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
 .realisation-card__body h3 { margin:0; font-family:Georgia,serif; font-size:1.4rem; letter-spacing:-.04em; font-weight:400; }
 .product-card__selection { margin:.65rem 0 0; color:var(--muted); font-size:.72rem; }
+.product-card__options { display:grid; grid-template-columns:auto minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:.55rem; margin-top:1rem; }
+.product-card__options label { color:#454646; font-size:.75rem; font-weight:700; }
+.product-card__options select { min-width:0; padding:.55rem .65rem; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); font-size:.8rem; }
+.product-card__options select:focus-visible { outline:3px solid #e8a4ab; outline-offset:2px; }
 .catalogue__share-note { max-width:740px; margin:1.5rem auto 0; color:var(--muted); font-size:.78rem; text-align:center; }
 .catalogue__grid,   .contact__layout { animation:section-rise .8s ease both; }
 @keyframes section-rise { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
