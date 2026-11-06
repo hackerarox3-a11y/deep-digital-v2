@@ -10,7 +10,7 @@ export const products: Product[] = [
     technique: "DTF ou Sérigraphie",
     price: 16000,
     colors: ["Noir Onyx", "Blanc Optique", "Rouge Deep"],
-    image: "/df/dfs.jpg",
+    image: "/tshirt.png",
     kind: "tshirt",
   },
   {

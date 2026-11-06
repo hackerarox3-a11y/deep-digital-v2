@@ -7,7 +7,7 @@ import { fabrics, fonts, sizes, studioColors } from "@/data/studio";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { buildCartWhatsAppUrl, buildWhatsAppUrl } from "@/services/quote-service";
 import type { CartItem, StudioLayer, StudioState, StudioTool } from "@/types/studio";
-import { clamp, cn, formatCfa } from "@/lib/utils";
+import { addDesignToCart, clamp, cn, formatCfa } from "@/lib/utils";
 import { GarmentSilhouette } from "@/components/garment-silhouette";
 
 const defaultLayer: StudioLayer = { id: "signature", name: "Deep Digital", type: "text", content: "DEEP\nDIGITAL", x: 50, y: 48, scale: 1, rotation: 0, color: "#f7f6f2", font: "Suisse Int'l", visible: true };
@@ -101,8 +101,8 @@ export function Studio() {
   }
   function notify(message: string) { setToast(message); window.setTimeout(() => setToast(""), 2200); }
   function addToCart() {
-    const existing = cart.find((item) => item.state.product.id === studio.product.id && item.state.color === studio.color && item.state.size === studio.size && item.state.technique === studio.technique);
-    setCart(existing ? cart.map((item) => item === existing ? { ...item, quantity: item.quantity + 1 } : item) : [...cart, { state: { ...studio, product: { ...studio.product, price } }, quantity: 1 }]);
+    const quotedStudio = { ...studio, product: { ...studio.product, price } };
+    setCart((items) => addDesignToCart(items, quotedStudio));
     notify("Modèle ajouté au panier");
   }
   function removeFromCart(index: number) { setCart(cart.filter((_, itemIndex) => itemIndex !== index)); }

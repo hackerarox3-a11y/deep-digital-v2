@@ -72,6 +72,8 @@ img { max-width:100%; display:block; }
 .product-card__footer .button--dark { background:var(--card-accent, var(--ink)); }
 .product-card__footer a.button { display:inline-flex; width:auto; min-width:94px; aspect-ratio:auto; border-radius:99px; color:#fff; white-space:nowrap; }
 .product-card__footer a.button span { color:inherit; }
+.product-card__visual { flex:none; aspect-ratio:4 / 3; min-height:0; }
+.product-card__visual img { padding:1rem; object-fit:contain; }
 
 /* Catalogue */
 .catalogue { padding-top:clamp(2rem, 4vw, 4rem); }
@@ -171,6 +173,7 @@ img { max-width:100%; display:block; }
   .realisations__grid { grid-template-columns:1fr; }
   .product-card { min-height:470px; }
   .product-card__visual { min-height:250px; }
+  .product-card__visual { min-height:0; aspect-ratio:4 / 3; }
   .tool-panel { padding:1rem; }
   .studio-stage { min-height:430px; }
   .garment-preview { width:84%; }
