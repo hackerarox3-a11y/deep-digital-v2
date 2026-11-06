@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
+import { site } from "@/constants/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [{ url: "https://deep-digit.vercel.app", lastModified: new Date(), changeFrequency: "weekly", priority: 1 }];
+  return [{ url: site.url, lastModified: new Date(), changeFrequency: "weekly", priority: 1 }];
 }

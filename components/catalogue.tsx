@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ImageSlideshow, type ImageSlide } from "@/components/image-slideshow";
 import { SectionHeading } from "@/components/section-heading";
+import { site } from "@/constants/site";
 import { products } from "@/data/catalogue";
 import { buildProductOrderWhatsAppMessage, buildProductOrderWhatsAppUrl } from "@/services/order-service";
 import type { Product } from "@/types/catalogue";
@@ -104,7 +105,7 @@ export function Catalogue() {
                 className="button button--small button--dark"
                 href={buildProductOrderWhatsAppUrl(
                   product,
-                  process.env.NEXT_PUBLIC_SITE_URL ?? "https://deep-digit.vercel.app",
+                  site.url,
                   selectedModels[product.id]?.src ?? product.images?.[0]?.src ?? product.image,
                   selectedModels[product.id]?.label ?? product.images?.[0]?.label ?? product.name,
                 )}

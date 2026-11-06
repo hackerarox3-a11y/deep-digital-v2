@@ -1,5 +1,6 @@
 export const site = {
   name: "Deep Digital",
+  url: "https://deep-digital-v2.vercel.app",
   whatsappNumber: "2250141451620",
   whatsappDisplay: "+225 01 41 45 16 20",
   instagram: "@deep_digital",

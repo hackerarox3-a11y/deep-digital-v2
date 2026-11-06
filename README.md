@@ -110,12 +110,13 @@ Variables conseillées :
 ```env
 NODE_ENV=production
 DATABASE_PATH=/home/your-user/deep-digital/data/deep-digital.sqlite
-NEXT_PUBLIC_SITE_URL=https://votre-domaine.com
 ```
 
 En production, `DATABASE_PATH` est obligatoire et doit être un chemin absolu vers un dossier persistant et accessible en écriture. Ne le place pas dans `.next/standalone`, `public` ou un dossier remplacé lors des mises à jour.
 
 Si les journaux npm indiquent `Unknown env config "cache-dir"`, supprime `NPM_CONFIG_CACHE_DIR` (ou `npm_config_cache_dir`) des variables d'environnement du build Hostinger. Si un cache npm personnalisé est nécessaire, utilise le paramètre npm reconnu `NPM_CONFIG_CACHE`.
+
+Le domaine canonique Vercel est centralisé dans `constants/site.ts` ; les métadonnées, le sitemap, le fichier robots et les liens d'image de commande utilisent la même adresse. Si un domaine personnalisé remplace le domaine Vercel, mets cette URL à jour au même endroit.
 
 Le projet autorise le script d'installation de la version verrouillée `sharp@0.34.5`, utilisé par Next.js pour l'optimisation d'images. Cette autorisation versionnée évite d'approuver les scripts d'autres dépendances.
 
@@ -153,7 +154,7 @@ Si tu déploies sur un hébergement partagé sans support Node.js, ce projet ne 
 ### 6. À finaliser avant mise en ligne
 
 - vrai numéro WhatsApp dans `constants/site.ts`
-- vrai domaine et `NEXT_PUBLIC_SITE_URL`
+- vrai domaine dans `constants/site.ts`
 - vraie base de données de production
 - intégration CRM/email réelle pour `POST /api/quote`
 - tests d’API + lien WhatsApp + responsive mobile
